@@ -32,9 +32,13 @@ jobs:
       with:
         terraform_version: ${{ env.TF_VERSION }}
 
-    # 2. Keep this step simple with the backend flag
+   # 1. Force the runner to use a local backend temporarily 
+    - name: 'Override Backend for LocalStack'
+      run: echo 'terraform { backend "local" {} }' > backend.tf
+
+    # 2. Run a standard init (no flags needed anymore!)
     - name: 'Terraform Init'
-      run: terraform init -backend=false
+      run: terraform init
 
     - name: 'Install TFLint'
       run: |
