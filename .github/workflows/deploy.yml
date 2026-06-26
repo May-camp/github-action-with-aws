@@ -29,13 +29,6 @@ jobs:
     - name: 'Checkout GitHub repository'
       uses: actions/checkout@v2
 
-    - name: 'Configure AWS credentials'
-      uses: aws-actions/configure-aws-credentials@v1
-      with:
-        aws-access-key-id: 'mock_key'
-        aws-secret-access-key: 'mock_secret'
-        aws-region: ${{ env.AWS_REGION }}
-
     - name: 'Set up Terraform'
       uses: hashicorp/setup-terraform@v1
       with:
