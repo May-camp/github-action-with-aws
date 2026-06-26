@@ -34,7 +34,12 @@ jobs:
 
    # 1. Force the runner to use a local backend temporarily 
     - name: 'Override Backend for LocalStack'
-      run: echo 'terraform { backend "local" {} }' > backend.tf
+      run: |
+        cat <<EOF > backend.tf
+        terraform {
+          backend "local" {}
+        }
+        EOF
 
     # 2. Run a standard init (no flags needed anymore!)
     - name: 'Terraform Init'
