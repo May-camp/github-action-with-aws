@@ -44,6 +44,10 @@ jobs:
       with:
         terraform_version: ${{ env.TF_VERSION }}
 
+    - name: 'Install tflocal'
+      run: |
+        pip install terraform-local
+
    # 1. Force the runner to use a local backend temporarily 
     - name: 'Override Backend for LocalStack'
       run: |
