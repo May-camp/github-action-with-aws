@@ -12,7 +12,7 @@ jobs:
   terraform:
     name: 'Terraform Lint, Security Check, and Deploy'
     runs-on: ubuntu-latest
-
+    
     # 1. Put the mock credentials here so the entire job can see them
     env:
       AWS_REGION: 'us-east-1'
@@ -21,7 +21,7 @@ jobs:
       TFSEC_VERSION: '1.28.1'
       AWS_ACCESS_KEY_ID: 'mock_key'
       AWS_SECRET_ACCESS_KEY: 'mock_secret'
-      AWS_DEFAULT_REGION: 'us-east-1
+      AWS_DEFAULT_REGION: 'us-east-1'
       EDGE_BIND_TO_ALL_INTERFACES: "true"
 
     steps:
