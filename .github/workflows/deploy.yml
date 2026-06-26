@@ -13,17 +13,15 @@ jobs:
     name: 'Terraform Lint, Security Check, and Deploy'
     runs-on: ubuntu-latest
 
-    services:
-      localstack:
-        image: localstack/localstack:3.0.0
-        ports:
-          - 4566:4566
-
+    # 1. Put the mock credentials here so the entire job can see them
     env:
       AWS_REGION: 'us-east-1'
       TF_VERSION: '1.4.0'
-      TFLINT_VERSION: '0.46.1'  # Updated to a more recent version
-      TFSEC_VERSION: '1.28.1'   # Updated to a more recent version
+      TFLINT_VERSION: '0.46.1'
+      TFSEC_VERSION: '1.28.1'
+      AWS_ACCESS_KEY_ID: 'mock_key'
+      AWS_SECRET_ACCESS_KEY: 'mock_secret'
+      AWS_DEFAULT_REGION: 'us-east-1'
 
     steps:
     - name: 'Checkout GitHub repository'
@@ -34,28 +32,23 @@ jobs:
       with:
         terraform_version: ${{ env.TF_VERSION }}
 
+    # 2. Keep this step simple with the backend flag
     - name: 'Terraform Init'
-      env:
-        AWS_ACCESS_KEY_ID: 'mock_key'
-        AWS_SECRET_ACCESS_KEY: 'mock_secret'
-        AWS_DEFAULT_REGION: 'us-east-1'
       run: terraform init -backend=false
 
     - name: 'Install TFLint'
       run: |
         curl -sLo tflint.zip https://github.com/terraform-linters/tflint/releases/download/v${{ env.TFLINT_VERSION }}/tflint_linux_amd64.zip
-        unzip tflint.zip -d /usr/local/bin/
+        unzip tflint.zip
+        sudo mv tflint /usr/local/bin/
         tflint --version
 
     - name: 'Install tfsec'
       run: |
         curl -sLo tfsec https://github.com/aquasecurity/tfsec/releases/download/v${{ env.TFSEC_VERSION }}/tfsec-linux-amd64
         chmod +x tfsec
-        mv tfsec /usr/local/bin/
+        sudo mv tfsec /usr/local/bin/
         tfsec --version
-
-    - name: 'Terraform Init'
-      run: terraform init
 
     - name: 'Terraform Format'
       run: terraform fmt
