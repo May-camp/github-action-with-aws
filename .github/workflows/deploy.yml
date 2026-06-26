@@ -13,6 +13,14 @@ jobs:
     name: 'Terraform Lint, Security Check, and Deploy'
     runs-on: ubuntu-latest
 
+    services:
+      localstack:
+        image: localstack/localstack:latest
+        ports:
+          - 4566:4566
+        env:
+          EDGE_BIND_TO_ALL_INTERFACES: "true"
+
     # 1. Put the mock credentials here so the entire job can see them
     env:
       AWS_REGION: 'us-east-1'
