@@ -8,16 +8,18 @@ terraform {
     }
   }
 }
+
 provider "aws" {
   region                      = "us-east-1"
-  s3_use_path_style           = true
+  access_key                  = "mock_key"
+  secret_key                  = "mock_secret"
   skip_credentials_validation = true
   skip_metadata_api_check     = true
   skip_requesting_account_id  = true
 
   endpoints {
-    s3  = "http://localhost:4566"
-    kms = "http://localhost:4566"
-    # Add any other AWS services you are using here
+    s3  = "http://127.0.0.1:4566"
+    kms = "http://127.0.0.1:4566"
+    # Update any other services you have listed here to 127.0.0.1 as well
   }
 }
