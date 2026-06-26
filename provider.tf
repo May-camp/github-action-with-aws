@@ -18,8 +18,7 @@ provider "aws" {
   skip_requesting_account_id  = true
 
   endpoints {
-    s3  = "http://127.0.0.1:4566"
-    kms = "http://127.0.0.1:4566"
-    # Update any other services you have listed here to 127.0.0.1 as well
+    s3  = "http://localstack:4566"
+    kms = "http://localstack:4566"
   }
 }
