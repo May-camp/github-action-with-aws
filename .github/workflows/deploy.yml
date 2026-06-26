@@ -13,14 +13,6 @@ jobs:
     name: 'Terraform Lint, Security Check, and Deploy'
     runs-on: ubuntu-latest
 
-    services:
-      localstack:
-        image: localstack/localstack:latest
-        ports:
-          - 4566:4566
-        env:
-          EDGE_BIND_TO_ALL_INTERFACES: "true"
-
     # 1. Put the mock credentials here so the entire job can see them
     env:
       AWS_REGION: 'us-east-1'
@@ -29,7 +21,8 @@ jobs:
       TFSEC_VERSION: '1.28.1'
       AWS_ACCESS_KEY_ID: 'mock_key'
       AWS_SECRET_ACCESS_KEY: 'mock_secret'
-      AWS_DEFAULT_REGION: 'us-east-1'
+      AWS_DEFAULT_REGION: 'us-east-1
+      EDGE_BIND_TO_ALL_INTERFACES: "true"
 
     steps:
     - name: 'Checkout GitHub repository'
