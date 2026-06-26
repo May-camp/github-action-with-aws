@@ -23,7 +23,8 @@ jobs:
       AWS_SECRET_ACCESS_KEY: 'mock_secret'
       AWS_DEFAULT_REGION: 'us-east-1'
       EDGE_BIND_TO_ALL_INTERFACES: "true"
-
+      HOSTNAME_EXTERNAL: "localhost"
+                
     steps:
     - name: 'Checkout GitHub repository'
       uses: actions/checkout@v2
