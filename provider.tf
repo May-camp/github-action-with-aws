@@ -1,12 +1,13 @@
 terraform {
+  required_version = ">= 1.4.0" # Match this to your TF_VERSION
+
   required_providers {
     aws = {
-      version = ">= 5.0"
       source  = "hashicorp/aws"
+      version = "~> 5.0" # Or whatever version you are using
     }
   }
 }
-
 provider "aws" {
   region                      = "us-east-1"
   s3_use_path_style           = true
