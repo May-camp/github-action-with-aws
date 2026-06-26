@@ -13,7 +13,6 @@ jobs:
     name: 'Terraform Lint, Security Check, and Deploy'
     runs-on: ubuntu-latest
     
-    # 1. Put the mock credentials here so the entire job can see them
     env:
       AWS_REGION: 'us-east-1'
       TF_VERSION: '1.4.0'
@@ -36,8 +35,12 @@ jobs:
           -e EDGE_BIND_TO_ALL_INTERFACES=true \
           localstack/localstack:latest
         
-        # Give LocalStack 10 seconds to fully spin up its engine
-        sleep 10
+        echo "Waiting for LocalStack to be fully ready..."
+        until $(curl --output /dev/null --silent --head --fail http://127.0.0.1:4566/_localstack/health); do
+          printf '.'
+          sleep 2
+        done
+        echo "LocalStack is online and ready!"
 
     - name: 'Set up Terraform'
       uses: hashicorp/setup-terraform@v1
@@ -48,7 +51,6 @@ jobs:
       run: |
         pip install terraform-local
 
-   # 1. Force the runner to use a local backend temporarily 
     - name: 'Override Backend for LocalStack'
       run: |
         cat <<EOF > backend.tf
@@ -57,7 +59,6 @@ jobs:
         }
         EOF
 
-    # 2. Run a standard init (no flags needed anymore!)
     - name: 'Terraform Init'
       run: terraform init
 
@@ -93,5 +94,5 @@ jobs:
       run: terraform plan -out=tfplan
 
     - name: 'Terraform Apply'
-      if: github.ref == 'refs/heads/main'
+      if: github.ref == 'refs/heads/main' && github.event_name == 'push'
       run: terraform apply -auto-approve tfplan
