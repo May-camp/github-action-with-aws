@@ -1,0 +1,9 @@
+# Local tracking directories (ဖိုင်အကြီးကြီးတွေရှိတဲ့နေရာ)
+.terraform/
+
+# State lock files 
+.terraform.lock.hcl
+
+# Local state files (ကျွန်တော်တို့ remote state သုံးထားလို့ စက်ထဲကဟာတွေ မလိုတော့ပါ)
+*.tfstate
+*.tfstate.backup
